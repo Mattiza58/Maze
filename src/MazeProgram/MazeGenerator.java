@@ -10,23 +10,51 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**
+ * Class that represents the generation of a maze grid onto a JPanel by using the recursive
+ * backtracking algorithim on an instance of a MazeGenerator object allowing for control over all
+ * states in the algorithim which aids in the implementation for its animation
+ */
 public class MazeGenerator implements ActionListener {
 
+    /**
+     * Timer object used for animation speed
+     */
     private final Timer timer;
+
+    /**
+     * The stack of cells used in the backtracking algorithim
+     */
     private Deque<Cell> stack;
+
+    /**
+     * The set of visited cells in the backtracking algorithim
+     */
     private HashSet<String> visited;
+
+    /**
+     * A reference to the GridCell object
+     */
     private final GridCell cellGrid;
+
+    /**
+     * A reference to the JPanel where this maze is placed on
+     */
     private final JPanel panel;
+
+    /**
+     * A reference to the list of cells
+     */
     private ArrayList<Cell> cells;
     private boolean isAnimated;
-    private boolean isRunning;
 
+    /**
+     * Constructs a new MazeGenerator object with a desired ms delay for its animation
+     */
     public MazeGenerator(int delay, GridCell cellGrid, JPanel panel, ArrayList<Cell> cells) {
-        this.isRunning = false;
         this.isAnimated = true;
         this.timer = new Timer(delay, this);
         this.stack = new LinkedList<>();
@@ -46,29 +74,44 @@ public class MazeGenerator implements ActionListener {
 
     }
 
-    public void setAnimated(){
+    /**
+     * Changes the boolean value of 'isAnimated' to its opposite
+     */
+    public void setAnimated() {
         this.isAnimated = !isAnimated;
     }
 
-    public void generateMaze(){
-        if (isAnimated){
+    /**
+     * Generates a new maze based on 'isAnimated'. If 'true', the animation will start, otherwise a
+     * maze will be generated instantly
+     */
+    public void generateMaze() {
+        if (isAnimated) {
             startAnimation();
-        }
-        else{
+        } else {
             mazeGenerator(cells);
         }
     }
 
-    public void updateCells(ArrayList<Cell> newCells){
+    /**
+     * Updates the reference of the current list of cells to 'newCells'
+     */
+    public void updateCells(ArrayList<Cell> newCells) {
         this.cells = newCells;
     }
 
-    public void changeDelayTime(int newDelay){
+    /**
+     * Updates the timer delay to 'newDelay'
+     */
+    public void changeDelayTime(int newDelay) {
         timer.setDelay(newDelay);
     }
 
-
-    private void reset(){
+    /**
+     * Resets the stack and visited set to empty for the purpose of initalizing a new generation of
+     * the maze. Essentially starts the first step of the recursive backtracking algorihtim
+     */
+    private void reset() {
         this.stack = new LinkedList<>();
         this.visited = new HashSet<>();
 
@@ -81,16 +124,23 @@ public class MazeGenerator implements ActionListener {
         stack.push(srcCell); // push the cell onto the stack
     }
 
-    public void startAnimation(){
+    /**
+     * Starts the animation for the maze generation
+     */
+    public void startAnimation() {
         reset();
-        isRunning = true;
         timer.setRepeats(true);
         timer.start();
     }
 
+    /**
+     * Separates the removal of the walls step of the algorithim into a single action to be used
+     * with a timer that repeately calls this method. Allows for an animation of the maze being
+     * generated.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!stack.isEmpty() && isRunning) {
+        if (!stack.isEmpty()) {
             Cell currentCell = stack.pop();
             // pop the cell off the stack and mark it as current
             NeighborPair neighbor = selectNeighbor(currentCell, visited);
@@ -215,7 +265,7 @@ public class MazeGenerator implements ActionListener {
      * Swap method that swaps two elements in a list by their index. Requires that 'arr' is not null
      * and 'x' and 'y' are valid indices in 'arr'.
      */
-    private static void swap(ArrayList<NeighborPair> arr, int x, int y) {
+    private void swap(ArrayList<NeighborPair> arr, int x, int y) {
         assert arr != null;
         assert (0 <= x && x < arr.size()) && (0 <= y && y < arr.size());
         NeighborPair temp = arr.get(x);
@@ -227,7 +277,7 @@ public class MazeGenerator implements ActionListener {
     /**
      * Fisher-yates shuffle. Requires that 'neighbors' is not null.
      */
-    private static void shuffle(ArrayList<NeighborPair> neighbors) {
+    private void shuffle(ArrayList<NeighborPair> neighbors) {
         assert neighbors != null;
         Random rand = new Random();
         int n = neighbors.size();
