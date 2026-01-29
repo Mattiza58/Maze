@@ -3,6 +3,7 @@ A Java Swing GUI maze generator utilizing a recursive backtracking algorithm
 
 <img width="748" height="437" alt="Screenshot 2026-01-28 at 10 08 04 PM" src="https://github.com/user-attachments/assets/9de2bc38-f467-4503-ae11-0e2c11c0e0d4" />
 
+
 **NOTE:** No generative AI, or "vibe-coding," was used during this project
 
 
