@@ -11,7 +11,7 @@ Information can be found here: https://en.wikipedia.org/wiki/Maze_generation_alg
 a simple way to apply these concepts in a fun way.
 
 Mazes can be generated through various algorithms. There's Prim's, Kruskal's, and Wilson's. However, the simplest of which, is the "recursive backtracker," which is what I chose to use. Although, 
-xalled "recursive", I implemented it iteratively to avoid stack overflow.
+called "recursive", I implemented it iteratively to avoid stack overflow.
 
 ### Steps
 
